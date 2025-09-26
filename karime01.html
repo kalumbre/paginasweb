@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
@@ -12,89 +11,202 @@
     <link href="https://fonts.cdnfonts.com/css/schnoerkel-caps" rel="stylesheet">
     <link href="https://fonts.cdnfonts.com/css/christmas-onlovia" rel="stylesheet">
                                       
+    <title>karime</title>
     
-    <title>karime </title>
-</head>
-<body>
     <style>
-        body{
-            background-color: rgb(246, 248, 248);
+        :root {
+            --oxford-blue: #0A2342;
+            --baby-powder: #FDFFFC;
+            --cambridge-blue: #8DB38B;
+            --zomp: #3A7D44;
         }
-        h1{
-             font-family: 'Christmas Onlovia', sans-serif;
-                                                
+
+        body {
+            background-color: rgb(246, 248, 248);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        h1 {
+            font-family: 'Christmas Onlovia', sans-serif;
+            text-align: center;
+            font-size: 3.5rem;
+            margin-bottom: 30px;
+            color: var(--oxford-blue);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            font-family: 'Schnoerkel Caps', sans-serif;
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: var(--zomp);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .tabla-malware {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .tabla-malware th,
+        .tabla-malware td {
+            padding: 14px 18px;
+            text-align: center;
+            border: 1px solid var(--cambridge-blue);
+            font-size: 16px;
+        }
+
+        .tabla-malware th {
+            background-color: var(--zomp);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--baby-powder);
+        }
+
+        .tabla-malware tr:nth-child(even) {
+            background-color: var(--cambridge-blue);
+            color: var(--oxford-blue);
+        }
+
+        .tabla-malware tr:nth-child(odd) {
+            background-color: rgba(141, 179, 139, 0.2);
+            color: var(--oxford-blue);
+        }
+
+        .tabla-malware tr:hover {
+            background-color: var(--zomp);
+            color: var(--baby-powder);
+            cursor: pointer;
+            transition: 0.3s ease-in-out;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        table th, table td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #f2f2f2;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        @media (max-width: 768px) {
+            .tabla-malware {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .tabla-malware th,
+            .tabla-malware td {
+                padding: 10px 12px;
+                font-size: 14px;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
         }
     </style>
-<h1>Ciber seguridad 01</h1>
-<h2>Tipos de Malware</h2>
+</head>
+<body>
+    <h1>Ciber seguridad 01</h1>
+    <h2>Tipos de Malware</h2>
 
-<table>
-    <tr>
-        <th>Tipo de Malware</th>
-        <th>Función</th>
-        <th>Impacto</th>
-    </tr>
-    <tr>
-        <td>Virus</td>
-        <td>Auto replicable, infecta archivos</td>
-        <td>Daño de datos al igual que de sistema</td>
-    </tr>
-    <tr>
-        <td>Gusanos</td>
-        <td>Se propaga atravez de las redes</td>
-        <td>Interrupción de la red, agotamiento de recursos</td>
-    </tr>
-    <tr>
-        <td>Caballo de troya</td>
-        <td>Se dizfrasa de software legitimo</td>
-        <td>Robo de datos, control de sistema</td>
-    </tr>
-    <tr>
-        <td>Software espia</td>
-        <td>Supervisa en secreto la actividad del usuario</td>
-        <td>Violacion de privacidad, robo de datos</td>
-    </tr>
-    <tr>
-        <td>Software publicitario</td>
-        <td>Muestra anuncios no deseado</td>
-        <td>Molestia, degradacion del rendimiento</td>
-    </tr>
-    <tr>
-        <td>Rootkit</td>
-        <td>Ocultar software malicioso</td>
-        <td>Acceso no autorizado, amenazas persistentes.</td>
-    </tr>
-    <tr>
-        <td>Keylogger</td>
-        <td>Registra las pulsaciones de teclas</td>
-        <td>Robo de credenciales, filtracion de datos</td>
-    </tr>
-    <tr>
-        <td>Fileless Malware <br> Malware sin archivos</td>
-        <td>COrre de la memoria</td>
-        <td>Ataques sigilosos y dificiles de detectar</td>
-    </tr>
-    <tr>
-        <td>Cryptojacker</td>
-        <td>Minas de criptomonedas</td>
-        <td>Problemas de rendimiento, secuestro de recursos</td>
-    </tr>
-    <tr>
-        <td>Reed de boots (Botnet)</td>
-        <td>Crea una red de dispositivos infectados</td>
-        <td>Ataque DDoS, distribucion de spam</td>
-    </tr>
-    <tr>
-        <td>Bomba Lógica (logic Bomb)</td>
-        <td>Ejecuta codigo en el disparador</td>
-        <td>Destruccion de datos, daños al sistema</td>
-    </tr>
-    <tr>
-        <td>Wiper (LimpiaBrisas)</td>
-        <td>Destruye datos</td>
-        <td>Perdida irreversible de datos</td>
-    </tr>
-
-</table>
+    <h2 style="margin-top: 50px;"></h2>
+    <table class="tabla-malware">
+        <thead>
+            <tr>
+                <th>Tipo de Malware</th>
+                <th>Función</th>
+                <th>Impacto</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Virus</td>
+                <td>Auto replicable, infecta archivos</td>
+                <td>Daño de datos al igual que de sistema</td>
+            </tr>
+            <tr>
+                <td>Gusanos</td>
+                <td>Se propaga atravez de las redes</td>
+                <td>Interrupción de la red, agotamiento de recursos</td>
+            </tr>
+            <tr>
+                <td>Caballo de troya</td>
+                <td>Se dizfrasa de software legitimo</td>
+                <td>Robo de datos, control de sistema</td>
+            </tr>
+            <tr>
+                <td>Software espia</td>
+                <td>Supervisa en secreto la actividad del usuario</td>
+                <td>Violacion de privacidad, robo de datos</td>
+            </tr>
+            <tr>
+                <td>Software publicitario</td>
+                <td>Muestra anuncios no deseado</td>
+                <td>Molestia, degradacion del rendimiento</td>
+            </tr>
+            <tr>
+                <td>Rootkit</td>
+                <td>Ocultar software malicioso</td>
+                <td>Acceso no autorizado, amenazas persistentes.</td>
+            </tr>
+            <tr>
+                <td>Keylogger</td>
+                <td>Registra las pulsaciones de teclas</td>
+                <td>Robo de credenciales, filtracion de datos</td>
+            </tr>
+            <tr>
+                <td>Fileless Malware <br> Malware sin archivos</td>
+                <td>COrre de la memoria</td>
+                <td>Ataques sigilosos y dificiles de detectar</td>
+            </tr>
+            <tr>
+                <td>Cryptojacker</td>
+                <td>Minas de criptomonedas</td>
+                <td>Problemas de rendimiento, secuestro de recursos</td>
+            </tr>
+            <tr>
+                <td>Reed de boots (Botnet)</td>
+                <td>Crea una red de dispositivos infectados</td>
+                <td>Ataque DDoS, distribucion de spam</td>
+            </tr>
+            <tr>
+                <td>Bomba Lógica (logic Bomb)</td>
+                <td>Ejecuta codigo en el disparador</td>
+                <td>Destruccion de datos, daños al sistema</td>
+            </tr>
+            <tr>
+                <td>Wiper (LimpiaBrisas)</td>
+                <td>Destruye datos</td>
+                <td>Perdida irreversible de datos</td>
+            </tr>
+        </tbody>
+    </table>
 </body>
 </html>

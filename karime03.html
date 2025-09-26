@@ -3,65 +3,171 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ataques de Ciberseguridad</title>
+    
+    <!-- Bootstrap y jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    
+    <!-- Fuentes personalizadas -->
+    <link href="https://fonts.cdnfonts.com/css/schnoerkel-caps" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/christmas-onlovia" rel="stylesheet">
+    
+    <title>Protección de Ciberseguridad</title>
+    
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            line-height: 1.6;
+        :root {
+            --oxford-blue: #0A2342;
+            --baby-powder: #FDFFFC;
+            --cambridge-blue: #8DB38B;
+            --zomp: #3A7D44;
         }
-        table {
+
+        body {
+            background-color: rgb(246, 248, 248);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #333;
+            line-height: 1.6;
+            padding-top: 20px;
+        }
+
+        h1 {
+            font-family: 'Christmas Onlovia', sans-serif;
+            text-align: center;
+            font-size: 3.5rem;
+            margin-bottom: 30px;
+            color: var(--oxford-blue);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .subtitle {
+            font-family: 'Schnoerkel Caps', sans-serif;
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            color: var(--zomp);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .tabla-ciber {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
+            margin: 30px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
         }
-        th, td {
-            padding: 12px;
-            text-align: left;
-            border: 1px solid #ddd;
+
+        .tabla-ciber th,
+        .tabla-ciber td {
+            padding: 14px 18px;
+            text-align: center;
+            border: 1px solid var(--cambridge-blue);
+            font-size: 16px;
         }
-        th {
-            background-color: #f2f2f2;
+
+        .tabla-ciber th {
+            background-color: var(--zomp);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--baby-powder);
         }
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
+
+        .tabla-ciber tr:nth-child(even) {
+            background-color: var(--cambridge-blue);
+            color: var(--oxford-blue);
         }
-        img {
+
+        .tabla-ciber tr:nth-child(odd) {
+            background-color: rgba(141, 179, 139, 0.2);
+            color: var(--oxford-blue);
+        }
+
+        .tabla-ciber tr:hover {
+            background-color: var(--zomp);
+            color: var(--baby-powder);
+            cursor: pointer;
+            transition: 0.3s ease-in-out;
+        }
+
+        .tabla-ciber img {
             max-width: 150px;
             max-height: 100px;
+            border-radius: 4px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            border-top: 1px solid var(--cambridge-blue);
+            font-size: 0.9rem;
+            color: var(--oxford-blue);
+        }
+
+        @media (max-width: 768px) {
+            .tabla-ciber {
+                display: block;
+                overflow-x: auto;
+            }
+            
+            .tabla-ciber th,
+            .tabla-ciber td {
+                padding: 10px 12px;
+                font-size: 14px;
+            }
+            
+            .tabla-ciber img {
+                max-width: 100px;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
         }
     </style>
 </head>
 <body>
-    <h1>Tipos de Ataques de Ciberseguridad</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>ataque</th>
-                <th>descripcion</th>
-                <th>impacto</th>
-                <th>ejemplo</th>
-                <th>imagen</th>
-            </tr>
-        </thead>
-        <tbody id="cuerpo-tabla">
+    <div class="container">
+        <header class="text-center">
+            <h1>Protección de Ciberseguridad</h1>
         
-        </tbody>
-    </table>
+        </header>
+
+        <div class="table-responsive">
+            <table class="tabla-ciber" id="tablaCiberseguridad">
+                <thead>
+                    <tr>
+                        <th>Ataque</th>
+                        <th>Descripción</th>
+                        <th>Impacto</th>
+                        <th>Ejemplo</th>
+                        <th>Imagen</th>
+                    </tr>
+                </thead>
+                <tbody id="cuerpo-tabla">
+                    
+                </tbody>
+            </table>
+        </div>
+
+        <footer>
+            <p>Protección de Ciberseguridad - Conociendo las Amenazas para Fortalecer Nuestra Seguridad</p>
+        </footer>
+    </div>
 
     <script>
-        // JSON(JavaScritp, Object Notation)con la informacion sobre los ataques de ciberseguridad
-        //declaro la variable en forma CONSTpara que sea global.
+        // JSON con la información sobre los ataques de ciberseguridad
         const ataques = [
-            //lo que sigue son los elementos de este Json separados por comas, el final no se pone la coma para derle que ya cabo.
             {
-                //Estos son los nombres de cada variable que voy a mandar a llamar en el html para la tabla.
-                "ataque": "Phishing", //se le agrega la coma para decir continua
+                "ataque": "Phishing",
                 "descripcion": "Engaña al usuario para robar credenciales mediante correos falsos.",
                 "impacto": "Robo de identidad, pérdida de datos.",
                 "ejemplo": "Correo falso de un banco solicitando datos.",
                 "imagen": "https://www.bleepstatic.com/content/hl-images/2022/08/23/phishing-hook.jpg"
-                //aqui buscan una imagen en google referente a eso, poner la liga, y como notan, aquino hay comsa al final porque fue la linea final.
             },
             {
                 "ataque": "Ransomware",
