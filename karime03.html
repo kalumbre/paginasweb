@@ -4,16 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- Bootstrap y jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
-    
-    <!-- Fuentes personalizadas -->
     <link href="https://fonts.cdnfonts.com/css/schnoerkel-caps" rel="stylesheet">
     <link href="https://fonts.cdnfonts.com/css/christmas-onlovia" rel="stylesheet">
-    
+                                      
     <title>Protección de Ciberseguridad</title>
     
     <style>
@@ -22,6 +19,7 @@
             --baby-powder: #FDFFFC;
             --cambridge-blue: #8DB38B;
             --zomp: #3A7D44;
+            --imperial-red: #E63946;
         }
 
         body {
@@ -29,14 +27,14 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: #333;
             line-height: 1.6;
-            padding-top: 20px;
+            padding: 20px;
         }
 
         h1 {
             font-family: 'Christmas Onlovia', sans-serif;
             text-align: center;
             font-size: 3.5rem;
-            margin-bottom: 30px;
+            margin-bottom: 15px;
             color: var(--oxford-blue);
             text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
         }
@@ -46,12 +44,12 @@
             text-align: center;
             font-size: 1.5rem;
             margin-bottom: 40px;
-            color: var(--zomp);
+            color: var(--imperial-red);
             text-transform: uppercase;
             letter-spacing: 1px;
         }
 
-        .tabla-ciber {
+        .tabla-proteccion {
             width: 100%;
             border-collapse: collapse;
             margin: 30px 0;
@@ -60,215 +58,201 @@
             overflow: hidden;
         }
 
-        .tabla-ciber th,
-        .tabla-ciber td {
-            padding: 14px 18px;
+        .tabla-proteccion th,
+        .tabla-proteccion td {
+            padding: 16px 20px;
             text-align: center;
             border: 1px solid var(--cambridge-blue);
             font-size: 16px;
+            vertical-align: middle;
         }
 
-        .tabla-ciber th {
-            background-color: var(--zomp);
+        .tabla-proteccion th {
+            background-color: var(--imperial-red);
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 1px;
             color: var(--baby-powder);
+            font-size: 18px;
         }
 
-        .tabla-ciber tr:nth-child(even) {
+        .tabla-proteccion tr:nth-child(even) {
             background-color: var(--cambridge-blue);
             color: var(--oxford-blue);
         }
 
-        .tabla-ciber tr:nth-child(odd) {
-            background-color: rgba(141, 179, 139, 0.2);
+        .tabla-proteccion tr:nth-child(odd) {
+            background-color: rgba(141, 179, 139, 0.15);
             color: var(--oxford-blue);
         }
 
-        .tabla-ciber tr:hover {
+        .tabla-proteccion tr:hover {
             background-color: var(--zomp);
             color: var(--baby-powder);
             cursor: pointer;
-            transition: 0.3s ease-in-out;
+            transform: scale(1.01);
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
 
-        .tabla-ciber img {
-            max-width: 150px;
-            max-height: 100px;
-            border-radius: 4px;
+        .tabla-proteccion img {
+            width: 120px;
+            height: 80px;
+            border-radius: 6px;
+            object-fit: cover;
+            border: 2px solid var(--oxford-blue);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
-        footer {
-            text-align: center;
-            padding: 20px;
-            margin-top: 40px;
-            border-top: 1px solid var(--cambridge-blue);
-            font-size: 0.9rem;
-            color: var(--oxford-blue);
+        .concepto-destacado {
+            font-weight: bold;
+            color: var(--imperial-red);
+            font-size: 17px;
         }
 
         @media (max-width: 768px) {
-            .tabla-ciber {
+            .tabla-proteccion {
                 display: block;
                 overflow-x: auto;
             }
             
-            .tabla-ciber th,
-            .tabla-ciber td {
-                padding: 10px 12px;
+            .tabla-proteccion th,
+            .tabla-proteccion td {
+                padding: 12px 14px;
                 font-size: 14px;
             }
             
-            .tabla-ciber img {
-                max-width: 100px;
+            .tabla-proteccion img {
+                width: 80px;
+                height: 60px;
             }
             
             h1 {
                 font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1.2rem;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <header class="text-center">
-            <h1>Protección de Ciberseguridad</h1>
-        
-        </header>
+        <h1>Protección de Ciberseguridad</h1>
+        <p class="subtitle">Estrategias y herramientas esenciales para la defensa digital</p>
 
-        <div class="table-responsive">
-            <table class="tabla-ciber" id="tablaCiberseguridad">
-                <thead>
-                    <tr>
-                        <th>Ataque</th>
-                        <th>Descripción</th>
-                        <th>Impacto</th>
-                        <th>Ejemplo</th>
-                        <th>Imagen</th>
-                    </tr>
-                </thead>
-                <tbody id="cuerpo-tabla">
-                    
-                </tbody>
-            </table>
-        </div>
-
-        <footer>
-            <p>Protección de Ciberseguridad - Conociendo las Amenazas para Fortalecer Nuestra Seguridad</p>
-        </footer>
+        <table class="tabla-proteccion">
+            <thead>
+                <tr>
+                    <th>Mecanismo de Protección</th>
+                    <th>Descripción</th>
+                    <th>Beneficios Clave</th>
+                    <th>Implementación</th>
+                    <th>Ilustración</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="concepto-destacado">Firewall de Nueva Generación</td>
+                    <td>Sistema avanzado que inspecciona paquetes de red y aplica políticas de seguridad inteligentes.</td>
+                    <td>Prevención de intrusiones, filtrado de contenido, control de aplicaciones.</td>
+                    <td>Hardware dedicado o software en puntos de entrada de red.</td>
+                    <td><img src="https://images.pexels.com/photos/60504/security-protection-anti-virus-software-60504.jpeg" alt="Firewall"></td>
+                </tr>
+                <tr>
+                    <td class="concepto-destacado">Cifrado End-to-End</td>
+                    <td>Protección de datos durante toda la transmisión, solo descifrable por emisor y receptor.</td>
+                    <td>Confidencialidad absoluta, protección contra interceptación.</td>
+                    <td>Implementado en aplicaciones de mensajería, transferencia de archivos.</td>
+                    <td><img src="https://images.pexels.com/photos/577210/pexels-photo-577210.jpeg" alt="Cifrado"></td>
+                </tr>
+                <tr>
+                    <td class="concepto-destacado">Autenticación Multifactor</td>
+                    <td>Sistema que requiere múltiples formas de verificación para acceder a recursos.</td>
+                    <td>Reducción del 99.9% de accesos no autorizados, seguridad robusta.</td>
+                    <td>Tokens físicos, aplicaciones móviles, biométricos, códigos SMS.</td>
+                    <td><img src="https://images.pexels.com/photos/3183156/pexels-photo-3183156.jpeg" alt="Autenticación"></td>
+                </tr>
+                <tr>
+                    <td class="concepto-destacado">Segmentación de Red</td>
+                    <td>División de la red en zonas separadas para contener posibles brechas de seguridad.</td>
+                    <td>Contención de amenazas, control de acceso granular, menor superficie de ataque.</td>
+                    <td>VLANs, subredes, microsegmentación software-defined.</td>
+                    <td><img src="https://images.pexels.com/photos/1148820/pexels-photo-1148820.jpeg" alt="Segmentación"></td>
+                </tr>
+                <tr>
+                    <td class="concepto-destacado">Backup Automatizado 3-2-1</td>
+                    <td>Estrategia: 3 copias, 2 medios diferentes, 1 copia fuera del sitio.</td>
+                    <td>Recuperación ante desastres, protección contra ransomware, continuidad operativa.</td>
+                    <td>Software de backup, almacenamiento en la nube, cintas, discos externos.</td>
+                    <td><img src="https://images.pexels.com/photos/373543/pexels-photo-373543.jpeg" alt="Backup"></td>
+                </tr>
+                <tr>
+                    <td class="concepto-destacado">SIEM (Security Information and Event Management)</td>
+                    <td>Sistema que centraliza y analiza registros de seguridad de múltiples fuentes.</td>
+                    <td>Detección temprana de amenazas, correlación de eventos, cumplimiento normativo.</td>
+                    <td>Plataformas especializadas, integración con sistemas existentes.</td>
+                    <td><img src="https://images.pexels.com/photos/669610/pexels-photo-669610.jpeg" alt="SIEM"></td>
+                </tr>
+                <tr>
+                    <td class="concepto-destacado">Parcheo Automatizado</td>
+                    <td>Proceso sistemático de aplicación de actualizaciones de seguridad.</td>
+                    <td>Protección contra vulnerabilidades conocidas, reducción de ventanas de riesgo.</td>
+                    <td>Herramientas de gestión de parches, políticas de actualización programadas.</td>
+                    <td><img src="https://images.pexels.com/photos/3861969/pexels-photo-3861969.jpeg" alt="Parcheo"></td>
+                </tr>
+                <tr>
+                    <td class="concepto-destacado">VPN Empresarial</td>
+                    <td>Conexión segura cifrada para acceso remoto a recursos corporativos.</td>
+                    <td>Comunicaciones seguras, acceso remoto protegido, anonimato de IP.</td>
+                    <td>Servidores VPN, clientes configurados, autenticación fuerte.</td>
+                    <td><img src="https://images.pexels.com/photos/5380642/pexels-photo-5380642.jpeg" alt="VPN"></td>
+                </tr>
+                <tr>
+                    <td class="concepto-destacado">Sandboxing</td>
+                    <td>Entorno aislado para ejecutar y analizar código sospechoso de forma segura.</td>
+                    <td>Detección de malware avanzado, análisis sin riesgo, protección proactiva.</td>
+                    <td>Soluciones de seguridad endpoint, gateways de email, análisis web.</td>
+                    <td><img src="https://images.pexels.com/photos/669615/pexels-photo-669615.jpeg" alt="Sandboxing"></td>
+                </tr>
+                <tr>
+                    <td class="concepto-destacado">Zero Trust Architecture</td>
+                    <td>Modelo de seguridad que verifica cada solicitud como si viniera de una red no confiable.</td>
+                    <td>Seguridad adaptativa, minimización de privilegios, protección integral.</td>
+                    <td>Verificación de identidad, microsegmentación, políticas estrictas de acceso.</td>
+                    <td><img src="https://images.pexels.com/photos/60504/security-protection-anti-virus-software-60504.jpeg" alt="Zero Trust"></td>
+                </tr>
+                <tr>
+                    <td class="concepto-destacado">DLP (Prevención de Pérdida de Datos)</td>
+                    <td>Tecnología que detecta y previene la fuga de información sensible.</td>
+                    <td>Protección de propiedad intelectual, cumplimiento de regulaciones, monitoreo de datos.</td>
+                    <td>Software especializado, políticas de clasificación de datos, monitoreo de endpoints.</td>
+                    <td><img src="https://images.pexels.com/photos/3183156/pexels-photo-3183156.jpeg" alt="DLP"></td>
+                </tr>
+                <tr>
+                    <td class="concepto-destacado">Honeypots</td>
+                    <td>Sistemas señuelo diseñados para atraer y estudiar ataques cibernéticos.</td>
+                    <td>Inteligencia de amenazas, distracción de atacantes, investigación forense.</td>
+                    <td>Servidores configurados como trampas, monitoreo intensivo, análisis de comportamiento.</td>
+                    <td><img src="https://images.pexels.com/photos/1148820/pexels-photo-1148820.jpeg" alt="Honeypots"></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
     <script>
-        // JSON con la información sobre los ataques de ciberseguridad
-        const ataques = [
-            {
-                "ataque": "Phishing",
-                "descripcion": "Engaña al usuario para robar credenciales mediante correos falsos.",
-                "impacto": "Robo de identidad, pérdida de datos.",
-                "ejemplo": "Correo falso de un banco solicitando datos.",
-                "imagen": "https://www.bleepstatic.com/content/hl-images/2022/08/23/phishing-hook.jpg"
-            },
-            {
-                "ataque": "Ransomware",
-                "descripcion": "Software malicioso que cifra los datos y exige un rescate para liberarlos.",
-                "impacto": "Pérdida de datos, interrupción de operaciones, pérdidas financieras.",
-                "ejemplo": "WannaCry, que afectó a miles de ordenadores en 2017.",
-                "imagen": "https://www.geco-it.fr/wp-content/uploads/2021/05/ransomware.jpg"
-            },
-            {
-                "ataque": "Malware",
-                "descripcion": "Software diseñado para dañar o infiltrarse en sistemas sin consentimiento.",
-                "impacto": "Pérdida de datos, daño al sistema, robo de información.",
-                "ejemplo": "Troyanos que se hacen pasar por software legítimo.",
-                "imagen": "https://i.ytimg.com/vi/GP6FQL6-ft8/maxresdefault.jpg"
-            },
-            {
-                "ataque": "Ataque DDoS",
-                "descripcion": "Sobrecarga un sistema con tráfico para hacerlo inaccesible.",
-                "impacto": "Interrupción de servicios, pérdida de productividad.",
-                "ejemplo": "Ataque a Dyn en 2016 que afectó a Twitter, Netflix y otros.",
-                "imagen": "https://ciberseguridad.egs-latam.com/hubfs/ddos-1.jpg"
-            },
-            {
-                "ataque": "Inyección SQL",
-                "descripcion": "Inserta código malicioso en consultas para manipular bases de datos.",
-                "impacto": "Robo, modificación o eliminación de datos sensibles.",
-                "ejemplo": "Inserción de código en formularios web para acceder a bases de datos.",
-                "imagen": "https://th.bing.com/th/id/R.92b3f4ca3f766e11f7ffe2f812ded134?rik=kDp7z1M4tATpqg&pid=ImgRaw&r=0"
-            },
-            {
-                "ataque": "Man-in-the-Middle",
-                "descripcion": "Intercepta comunicaciones entre dos partes sin su conocimiento.",
-                "impacto": "Robo de información, suplantación de identidad.",
-                "ejemplo": "Interceptar comunicación entre un usuario y su banco online.",
-                "imagen": "https://www.strongdm.com/hubfs/main-in-the-middle-attack-mitm.jpg"
-            },
-            {
-                "ataque": "Cross-Site Scripting (XSS)",
-                "descripcion": "Inyecta scripts maliciosos en sitios web legítimos.",
-                "impacto": "Robo de cookies, sesiones, y redirección a sitios maliciosos.",
-                "ejemplo": "Inyectar código JavaScript en comentarios de un foro.",
-                "imagen": "https://media.licdn.com/dms/image/D4E12AQGJrFTAFnaBUA/article-cover_image-shrink_600_2000/0/1710831657362?e=2147483647&v=beta&t=nMV6opqTi5Mo5EigwZCl1XS9K-WPVpmrCfOvPqD30hY"
-            },
-            {
-                "ataque": "Fuerza Bruta",
-                "descripcion": "Intenta adivinar credenciales probando múltiples combinaciones.",
-                "impacto": "Acceso no autorizado a sistemas y datos.",
-                "ejemplo": "Programas que prueban miles de contraseñas por minuto.",
-                "imagen": "https://www.ssldragon.com/wp-content/uploads/2023/10/brute-force-attack-1.webp"
-            },
-            {
-                "ataque": "Zero-day Exploit",
-                "descripcion": "Aprovecha vulnerabilidades desconocidas para el fabricante.",
-                "impacto": "Acceso no autorizado, daños graves antes de que exista parche.",
-                "ejemplo": "Stuxnet, que aprovechó vulnerabilidades zero-day en sistemas SCADA.",
-                "imagen": "https://tse4.mm.bing.net/th/id/OIP.0KfxmOdlMVYVNCq1GRAmJQHaEK?rs=1&pid=ImgDetMain&o=7&rm=3"
-            },
-            {
-                "ataque": "Suplantación de Identidad (Spoofing)",
-                "descripcion": "Se hace pasar por una entidad o dispositivo legítimo.",
-                "impacto": "Acceso no autorizado, interceptación de datos.",
-                "ejemplo": "Suplantación de dirección IP o DNS.",
-                "imagen": "https://www.redseguridad.com/wp-content/uploads/sites/2/2021/07/spoofing-900x600.png"
-            },
-            {
-                "ataque": "Ingeniería Social",
-                "descripcion": "Manipula psicológicamente a las personas para revelar información.",
-                "impacto": "Revelación de información confidencial, acceso no autorizado.",
-                "ejemplo": "Llamada telefónica haciéndose pasar del soporte técnico.",
-                "imagen": "https://th.bing.com/th/id/R.e2888bbbcb708771a5e5e4193cac5960?rik=tNLxsAeMCys9cg&pid=ImgRaw&r=0"
-            },
-            {
-                "ataque": "APTs (Amenazas Persistentes Avanzadas)",
-                "descripcion": "Ataque continuo y dirigido que permanece sin ser detectado.",
-                "impacto": "Pérdida prolongada de datos intelectuales y sensibles.",
-                "ejemplo": "Ataques patrocinados por estados contra infraestructuras críticas.",
-                "imagen": "https://blog.desdelinux.net/wp-content/uploads/2021/08/ataque-apt-amenazas-avanzadas-persistentes-pueden-afectar-linux-imagen-contenido-blog-desdelinux-1024x576.jpg"
-            }
-        ];
-
-        // Función para cargar los datos en la tabla
-        function cargarTabla() {
-            const tbody = document.getElementById('cuerpo-tabla');
+        // Efecto adicional para las filas al hacer clic
+        document.addEventListener('DOMContentLoaded', function() {
+            const filas = document.querySelectorAll('.tabla-proteccion tbody tr');
             
-            ataques.forEach(ataque => {
-                const fila = document.createElement('tr');
-                
-                fila.innerHTML = `
-                    <td>${ataque.ataque}</td>
-                    <td>${ataque.descripcion}</td>
-                    <td>${ataque.impacto}</td>
-                    <td>${ataque.ejemplo}</td>
-                    <td><img src="${ataque.imagen}" alt="${ataque.ataque}"></td>
-                `;
-                
-                tbody.appendChild(fila);
+            filas.forEach(fila => {
+                fila.addEventListener('click', function() {
+                    this.classList.toggle('seleccionada');
+                });
             });
-        }
-
-        // Cargar la tabla cuando el documento esté listo
-        document.addEventListener('DOMContentLoaded', cargarTabla);
+        });
     </script>
 </body>
-</html>
+                    </html>
+                
