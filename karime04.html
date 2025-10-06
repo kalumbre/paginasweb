@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css"
+    />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <link
+      href="https://fonts.cdnfonts.com/css/schnoerkel-caps"
+      rel="stylesheet"
+    />
+
+    <title>karime Bernal</title>
+  </head>
+  <body>
+    <style>
+      :root {
+        --pomp-and-power: rgba(182, 254, 236, 0.694);
+        --feldgrau: rgba(11, 128, 130, 0.76);
+        --ash-gray: rgba(201, 254, 223, 0.808);
+        --chili-red: rgb(198, 198, 247);
+        --red: rgb(179, 237, 240);
+      }
+
+      body {
+        /* Imagen de fondo */
+        background: url("fondo.jpg") no-repeat center center fixed;
+        background-size: cover;
+        font-family: Arial, sans-serif;
+      }
+
+      /* 🎨 ESTILO PARA TEXTO CON IMAGEN */
+      h1, h3, p {
+        font-weight: bold;
+        text-transform: uppercase;
+        background: url("https://picsum.photos/800/600") no-repeat center center;
+        background-size: cover;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        color: transparent;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 60px;
+      }
+
+      h3 {
+        font-size: 40px;
+      }
+
+      p {
+        font-size: 28px;
+      }
+
+      /* Estilos para la calculadora */
+      .calculator-container {
+        max-width: 400px;
+        margin: 30px auto;
+        background: white;
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        border: 3px solid var(--feldgrau);
+      }
+
+      .calculator-display {
+        width: 100%;
+        height: 70px;
+        font-size: 32px;
+        text-align: right;
+        padding: 10px 20px;
+        margin-bottom: 20px;
+        border: 2px solid var(--feldgrau);
+        border-radius: 10px;
+        background: #f8f9fa;
+        box-sizing: border-box;
+        font-weight: bold;
+      }
+
+      .calculator-buttons {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 12px;
+      }
+
+      .calc-btn {
+        height: 65px;
+        font-size: 22px;
+        font-weight: bold;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.2s;
+        background: var(--feldgrau);
+        color: white;
+      }
+
+      .calc-btn:hover {
+        background: var(--pomp-and-power);
+        transform: translateY(-2px);
+        color: #333;
+      }
+
+      .calc-btn:active {
+        transform: translateY(0);
+      }
+
+      .operator {
+        background: var(--chili-red);
+      }
+
+      .equals {
+        background: var(--red);
+      }
+
+      .clear {
+        background: #ff6b6b;
+      }
+    </style>
+
+    <nav class="navbar navbar-light" style="background-color: var(--pomp-and-power);">
+      <div class="container">
+        <a class="navbar-brand" href="index.html" style="background: var(--feldgrau);">Inicio</a>
+
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="nav navbar-nav">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="unidad1.html"
+                id="navbarDeopdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false" style="color: rgb(12, 12, 12);">UNIDAD 1 Ciberseguridad</a>
+              <div class="dropdown-menu" aria-labelledby="navbarDopDownMenuLink">
+                <a class="dropdown-item" href="./karime01.html">Conceptos</a><br>
+                <a class="dropdown-item" href="./karime02.html">Ataques</a><br>
+                <a class="dropdown-item" href="./karime03.html">Proteccion</a><br>
+              </div>
+            </li>
+          </ul>
+
+          <ul class="nav navbar-nav">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="unidad2.html"
+                id="navbarDeopdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false" style="color: rgb(10, 10, 10);">UNIDAD2 </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDopDownMenuLink">
+                <a class="dropdown-item" href="./karime04.html">Calculadora</a><br>
+                <a class="dropdown-item" href="./karime05.html">Ataques</a><br>
+                <a class="dropdown-item" href="./karime06.html">Proteccion</a><br>
+              </div>
+            </li>
+          </ul>
+
+          <ul class="nav navbar-nav">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="unidad3.html"
+                id="navbarDeopdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false" style="color: rgb(12, 12, 12);">UNIDAD 3 </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDopDownMenuLink">
+                <a class="dropdown-item" href="./karime07.html">Conceptos</a><br>
+                <a class="dropdown-item" href="./karime08.html">Ataques</a><br>
+                <a class="dropdown-item" href="./karime09.html">Proteccion</a><br>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+      
+      <!-- CALCULADORA -->
+      <div class="calculator-container">
+        <input type="text" class="calculator-display" id="display" readonly>
+        
+        <div class="calculator-buttons">
+          <!-- Fila 1 -->
+          <button class="calc-btn clear" onclick="clearDisplay()">C</button>
+          <button class="calc-btn" onclick="appendToDisplay('%')">%</button>
+          <button class="calc-btn" onclick="deleteLast()">←</button>
+          <button class="calc-btn operator" onclick="appendToDisplay('/')">/</button>
+          
+          <!-- Fila 2 -->
+          <button class="calc-btn" onclick="appendToDisplay('7')">7</button>
+          <button class="calc-btn" onclick="appendToDisplay('8')">8</button>
+          <button class="calc-btn" onclick="appendToDisplay('9')">9</button>
+          <button class="calc-btn operator" onclick="appendToDisplay('*')">X</button>
+          
+          <!-- Fila 3 -->
+          <button class="calc-btn" onclick="appendToDisplay('4')">4</button>
+          <button class="calc-btn" onclick="appendToDisplay('5')">5</button>
+          <button class="calc-btn" onclick="appendToDisplay('6')">6</button>
+          <button class="calc-btn operator" onclick="appendToDisplay('-')">-</button>
+          
+          <!-- Fila 4 -->
+          <button class="calc-btn" onclick="appendToDisplay('1')">1</button>
+          <button class="calc-btn" onclick="appendToDisplay('2')">2</button>
+          <button class="calc-btn" onclick="appendToDisplay('3')">3</button>
+          <button class="calc-btn operator" onclick="appendToDisplay('+')">+</button>
+          
+          <!-- Fila 5 -->
+          <button class="calc-btn" onclick="appendToDisplay('00')">00</button>
+          <button class="calc-btn" onclick="appendToDisplay('0')">0</button>
+          <button class="calc-btn" onclick="appendToDisplay('.')">.</button>
+          <button class="calc-btn equals" onclick="calculate()">=</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Funciones de la calculadora
+      function appendToDisplay(value) {
+        document.getElementById('display').value += value;
+      }
+
+      function clearDisplay() {
+        document.getElementById('display').value = '';
+      }
+
+      function deleteLast() {
+        let display = document.getElementById('display');
+        display.value = display.value.slice(0, -1);
+      }
+
+      function calculate() {
+        try {
+          let expression = document.getElementById('display').value;
+          // Reemplazar X por * para evaluación
+          expression = expression.replace(/X/g, '*');
+          const result = eval(expression);
+          document.getElementById('display').value = result;
+        } catch (error) {
+          document.getElementById('display').value = 'Error';
+        }
+      }
+
+      // Permitir teclado
+      document.addEventListener('keydown', function(event) {
+        const key = event.key;
+        if (/[0-9+\-*/.%]/.test(key)) {
+          appendToDisplay(key);
+        } else if (key === 'Enter') {
+          calculate();
+        } else if (key === 'Escape' || key === 'c' || key === 'C') {
+          clearDisplay();
+        } else if (key === 'Backspace') {
+          deleteLast();
+        }
+      });
+    </script>
+  </body>
+</html>
