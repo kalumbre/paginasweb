@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.cdnfonts.com/css/rabid-science" rel="stylesheet">
+    <title> Películas</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { background-color: #222; color: white; font-family: Arial, sans-serif; margin: 0; padding: 0; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        h1 { text-align: center; margin-top: 50px; margin-bottom: 30px; font-family: 'Rabid_Science', sans-serif; color: #fff; }
+        form { display: flex; justify-content: center; margin-bottom: 50px; }
+        input[type="text"] { font-size: 1.2rem; padding: 10px; border-radius: 5px; border: none; width: 50%; }
+        input[type="submit"] { font-size: 1.2rem; padding: 10px 20px; border-radius: 5px; border: none; margin-left: 10px; cursor: pointer; background-color: #e50914; color: white; }
+        .movies { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+        .movie { background-color: #373b69; border-radius: 5px; overflow: hidden; box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2); position: relative; }
+        .movie img { width: 100%; height: 400px; object-fit: cover; }
+        .movie-info { display: flex; justify-content: space-between; align-items: center; padding: 1rem; }
+        .movie-info h3 { margin: 0; font-size: 1rem; }
+        .movie-info span { background-color: #22254b; padding: 0.25rem 0.5rem; border-radius: 3px; font-weight: bold; }
+        .green { color: lightgreen; } .orange { color: orange; } .red { color: red; }
+        .overview { background-color: white; color: #222; padding: 2rem; position: absolute; left: 0; bottom: 0; right: 0; max-height: 100%; transform: translateY(101%); transition: transform 0.3s ease-in; }
+        .movie:hover .overview { transform: translateY(0); }
+        .success-message { background: #28a745; color: white; padding: 10px; text-align: center; margin-bottom: 20px; border-radius: 5px; }
+        .loading { text-align: center; font-size: 1.5rem; margin: 50px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎬 Películas</h1>
+        
+        <form id="form">
+            <input type="text" id="search" placeholder="Busca cualquier película...">
+            <input type="submit" value="Buscar">
+        </form>
+        
+        <section id="main" class="movies"></section>
+    </div>
+
+    <script>
+        // ✅ TU API KEY REAL - ¡FUNCIONARÁ CON TODAS LAS PELÍCULAS!
+        const API_KEY = '9c313d3b1b1cb226a88621cb14fd476a';
+        const API_URL = `https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=${API_KEY}&language=es&page=1`;
+        const SEARCH_API = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&language=es&query=`;
+        const IMG_PATH = 'https://image.tmdb.org/t/p/w500';
+
+        const main = document.getElementById('main');
+        const form = document.getElementById('form');
+        const search = document.getElementById('search');
+
+        // Cargar películas populares al inicio
+        getMovies(API_URL);
+
+        async function getMovies(url) {
+            try {
+                main.innerHTML = '<div class="loading">🎥 Cargando películas...</div>';
+                
+                const res = await fetch(url);
+                const data = await res.json();
+                
+                if (data.results && data.results.length > 0) {
+                    showMovies(data.results);
+                } else {
+                    main.innerHTML = '<p>No se encontraron películas</p>';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                main.innerHTML = '<p>Error al cargar películas</p>';
+            }
+        }
+
+        function showMovies(movies) {
+            main.innerHTML = '';
+
+            movies.forEach(movie => {
+                const { title, poster_path, vote_average, overview } = movie;
+                const movieEl = document.createElement('div');
+                movieEl.className = 'movie';
+                
+                movieEl.innerHTML = `
+                    <img src="${poster_path ? IMG_PATH + poster_path : 'https://via.placeholder.com/300x450/373b69/ffffff?text=Poster+No+Disponible'}" 
+                         alt="${title}"
+                         onerror="this.src='https://via.placeholder.com/300x450/373b69/ffffff?text=Error+Imagen'">
+                    <div class="movie-info">
+                        <h3>${title}</h3>
+                        <span class="${getClassByRate(vote_average)}">${vote_average ? vote_average.toFixed(1) : 'N/A'}</span>
+                    </div>
+                    <div class="overview">
+                        <h3>Resumen</h3>
+                        ${overview || 'Descripción no disponible.'}
+                    </div>
+                `;
+                
+                main.appendChild(movieEl);
+            });
+        }
+
+        function getClassByRate(vote) {
+            if (vote >= 8) return 'green';
+            if (vote >= 5) return 'orange';
+            return 'red';
+        }
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            const searchTerm = search.value.trim();
+            
+            if (searchTerm) {
+                getMovies(SEARCH_API + encodeURIComponent(searchTerm));
+                search.value = '';
+            } else {
+                getMovies(API_URL);
+            }
+        });
+    </script>
+</body>
+</html>
