@@ -1,0 +1,1613 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego del Ahorcado </title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            padding: 30px;
+            position: relative;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #eee;
+            position: relative;
+        }
+
+        h1 {
+            color: #2c3e50;
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle {
+            color: #7f8c8d;
+            font-size: 1.2rem;
+        }
+
+        .game-area {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .left-column, .right-column {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .game-info {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            background: linear-gradient(to right, #3498db, #2ecc71);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .game-info {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .info-item {
+            text-align: center;
+        }
+
+        .info-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .info-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .hangman-container {
+            background-color: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        #hangman-canvas {
+            display: block;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .word-container {
+            background-color: #ecf0f1;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        #word-display {
+            font-size: 2.5rem;
+            letter-spacing: 10px;
+            text-align: center;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-family: 'Courier New', monospace;
+            min-height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .category {
+            text-align: center;
+            color: #7f8c8d;
+            font-style: italic;
+            font-size: 1.1rem;
+        }
+
+        .keyboard {
+            display: grid;
+            grid-template-columns: repeat(9, 1fr);
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .keyboard {
+                grid-template-columns: repeat(7, 1fr);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .keyboard {
+                grid-template-columns: repeat(5, 1fr);
+            }
+        }
+
+        .key {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            height: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 0 #2980b9;
+        }
+
+        .key:hover {
+            background-color: #2980b9;
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #1c5a7a;
+        }
+
+        .key:disabled {
+            background-color: #bdc3c7;
+            color: #7f8c8d;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .key.correct {
+            background-color: #2ecc71;
+            box-shadow: 0 4px 0 #27ae60;
+        }
+
+        .key.incorrect {
+            background-color: #e74c3c;
+            box-shadow: 0 4px 0 #c0392b;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .controls {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .btn {
+            padding: 15px 10px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-align: center;
+        }
+
+        .btn-new {
+            background-color: #3498db;
+            color: white;
+            box-shadow: 0 5px 0 #2980b9;
+        }
+
+        .btn-new:hover {
+            background-color: #2980b9;
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #1c5a7a;
+        }
+
+        .btn-hint {
+            background-color: #f39c12;
+            color: white;
+            box-shadow: 0 5px 0 #d35400;
+        }
+
+        .btn-hint:hover {
+            background-color: #e67e22;
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #a35200;
+        }
+
+        .btn-category {
+            background-color: #9b59b6;
+            color: white;
+            box-shadow: 0 5px 0 #8e44ad;
+        }
+
+        .btn-category:hover {
+            background-color: #8e44ad;
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #6c3483;
+        }
+
+        .btn-music {
+            background-color: #e74c3c;
+            color: white;
+            box-shadow: 0 5px 0 #c0392b;
+        }
+
+        .btn-music:hover {
+            background-color: #c0392b;
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #7d241c;
+        }
+
+        .message-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s;
+        }
+
+        .message-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .message-box {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            transform: translateY(30px);
+            transition: transform 0.5s;
+        }
+
+        .message-overlay.active .message-box {
+            transform: translateY(0);
+        }
+
+        .message-title {
+            font-size: 2.5rem;
+            color: white;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .message-text {
+            font-size: 1.5rem;
+            color: white;
+            margin-bottom: 30px;
+        }
+
+        .message-word {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #f1c40f;
+            margin: 20px 0;
+            letter-spacing: 5px;
+        }
+
+        .btn-close {
+            background-color: white;
+            color: #2c3e50;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+
+        .btn-close:hover {
+            background-color: #ecf0f1;
+            transform: scale(1.05);
+        }
+
+        .category-selector {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1001;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s;
+        }
+
+        .category-selector.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .category-box {
+            background-color: white;
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 600px;
+            width: 90%;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .category-title {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .category-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 576px) {
+            .category-options {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .category-option {
+            padding: 20px;
+            background-color: #ecf0f1;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #2c3e50;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid transparent;
+        }
+
+        .category-option:hover {
+            background-color: #3498db;
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        .category-option.active {
+            background-color: #2ecc71;
+            color: white;
+            border-color: #27ae60;
+        }
+
+        .hint-box {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1002;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s;
+        }
+
+        .hint-box.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .hint-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .hint-title {
+            font-size: 2rem;
+            color: #f39c12;
+            margin-bottom: 20px;
+        }
+
+        .hint-text {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+
+        .hint-used {
+            color: #e74c3c;
+            font-size: 1.2rem;
+            margin-top: 20px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .difficulty {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .difficulty-btn {
+            padding: 8px 15px;
+            background-color: #ecf0f1;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .difficulty-btn.active {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .timer-container {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(45deg, #ff6b6b, #ffa726);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        .streak-container {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+        }
+
+        .achievement-badge {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            color: #333;
+            padding: 20px 40px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 1.5rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            z-index: 1003;
+            text-align: center;
+            opacity: 0;
+            transition: all 0.5s ease-out;
+        }
+
+        .achievement-badge.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .achievement-badge i {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .volume-slider {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            z-index: 100;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .volume-slider.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .volume-slider label {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .volume-slider input {
+            width: 100%;
+        }
+
+        .audio-permission {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .audio-permission-box {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f);
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            color: white;
+        }
+
+        .audio-permission-title {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .audio-permission-text {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .audio-permission-btn {
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .audio-permission-btn:hover {
+            background-color: #27ae60;
+            transform: scale(1.05);
+        }
+
+        .word-length {
+            text-align: center;
+            margin-top: 10px;
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Permiso de audio -->
+    <div class="audio-permission" id="audio-permission">
+        <div class="audio-permission-box">
+            <h2 class="audio-permission-title">🎵 Activar Sonido 🎵</h2>
+            <p class="audio-permission-text">
+                Para disfrutar de la experiencia completa con música y efectos de sonido, 
+                por favor haz clic en el botón de abajo para activar el audio.
+                <br><br>
+                <i class="fas fa-volume-up" style="font-size: 3rem; margin: 20px 0;"></i>
+            </p>
+            <button class="audio-permission-btn" id="enable-audio-btn">
+                <i class="fas fa-play"></i> Activar Sonido
+            </button>
+        </div>
+    </div>
+
+    <!-- Audio elements con fuentes locales alternativas -->
+    <audio id="background-music" loop preload="auto">
+        <!-- Música de fondo alternativa si la primera falla -->
+        <source src="https://assets.mixkit.co/music/preview/mixkit-game-show-suspense-waiting-667.mp3" type="audio/mpeg">
+        <source src="https://assets.mixkit.co/music/preview/mixkit-thinking-1312.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="correct-sound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-correct-answer-tone-2870.mp3" type="audio/mpeg">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="incorrect-sound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-wrong-answer-fail-notification-946.mp3" type="audio/mpeg">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-wrong-electric-buzz-955.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="win-sound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-winning-chimes-2015.mp3" type="audio/mpeg">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-winning-trumpet-2018.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="lose-sound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-sad-game-over-trombone-471.mp3" type="audio/mpeg">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-retro-game-over-1947.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="hint-sound" preload="auto">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-magic-sparkles-300.mp3" type="audio/mpeg">
+        <source src="https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="container">
+        <!-- Temporizador -->
+        <div class="timer-container">
+            <i class="fas fa-clock"></i> Tiempo: <span id="timer">00:00</span>
+        </div>
+        
+        <!-- Racha de victorias -->
+        <div class="streak-container">
+            <i class="fas fa-fire"></i> Racha: <span id="streak">0</span>
+        </div>
+
+        <header>
+            <h1><i class="fas fa-skull-crossbones"></i> AHORCADO </h1>
+            <p class="subtitle">¡La música y los efectos de sonido hacen el juego más divertido!</p>
+        </header>
+
+        <div class="game-info">
+            <div class="info-item">
+                <div class="info-label">CATEGORÍA</div>
+                <div id="category-display" class="info-value">Animales</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">ERRORES</div>
+                <div id="errors-display" class="info-value">0 / 8</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">PISTAS</div>
+                <div id="hints-display" class="info-value">3</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">PUNTOS</div>
+                <div id="score-display" class="info-value">0</div>
+            </div>
+        </div>
+
+        <div class="game-area">
+            <div class="left-column">
+                <div class="hangman-container">
+                    <canvas id="hangman-canvas" width="400" height="300"></canvas>
+                </div>
+                
+                <div class="difficulty">
+                    <div class="difficulty-btn active" data-level="easy">Fácil</div>
+                    <div class="difficulty-btn" data-level="medium">Medio</div>
+                    <div class="difficulty-btn" data-level="hard">Difícil</div>
+                </div>
+            </div>
+            
+            <div class="right-column">
+                <div class="word-container">
+                    <div id="word-display"></div>
+                    <div class="word-length" id="word-length">Longitud: 0 letras</div>
+                    <div id="category-hint" class="category">Categoría: Animales</div>
+                </div>
+                
+                <div class="keyboard" id="keyboard">
+                    <!-- Teclado generado por JavaScript -->
+                </div>
+                
+                <div class="controls">
+                    <button class="btn btn-new" id="new-game-btn">
+                        <i class="fas fa-redo"></i> Nuevo
+                    </button>
+                    <button class="btn btn-hint" id="hint-btn">
+                        <i class="fas fa-lightbulb"></i> Pista
+                    </button>
+                    <button class="btn btn-category" id="category-btn">
+                        <i class="fas fa-list"></i> Categoría
+                    </button>
+                    <button class="btn btn-music" id="music-btn">
+                        <i class="fas fa-volume-up"></i> Sonido: ON
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2023 Ahorcado Musical | Presiona cualquier tecla o botón para activar el sonido</p>
+            <p>¡La música comenzará automáticamente cuando interactúes con el juego!</p>
+        </footer>
+    </div>
+
+    <!-- Control de volumen -->
+    <div class="volume-slider" id="volume-slider">
+        <label for="volume">Volumen Música</label>
+        <input type="range" id="volume" min="0" max="100" value="50">
+        <label for="sfx-volume">Volumen Efectos</label>
+        <input type="range" id="sfx-volume" min="0" max="100" value="70">
+    </div>
+
+    <!-- Logros -->
+    <div class="achievement-badge" id="achievement-badge">
+        <i class="fas fa-trophy"></i>
+        <div id="achievement-text">¡Logro Desbloqueado!</div>
+    </div>
+
+    <!-- Mensaje de fin de juego -->
+    <div class="message-overlay" id="message-overlay">
+        <div class="message-box">
+            <h2 class="message-title" id="message-title">¡Felicidades!</h2>
+            <p class="message-text" id="message-text">Has adivinado la palabra correctamente.</p>
+            <div class="message-word" id="message-word">PALABRA</div>
+            <p id="game-stats" class="message-text"></p>
+            <button class="btn-close" id="close-message-btn">Continuar</button>
+        </div>
+    </div>
+
+    <!-- Selector de categorías -->
+    <div class="category-selector" id="category-selector">
+        <div class="category-box">
+            <h2 class="category-title">Selecciona una categoría</h2>
+            <div class="category-options">
+                <div class="category-option active" data-category="animales">🐾 Animales</div>
+                <div class="category-option" data-category="paises">🌍 Países</div>
+                <div class="category-option" data-category="ciencia">🔬 Ciencia</div>
+                <div class="category-option" data-category="deportes">⚽ Deportes</div>
+                <div class="category-option" data-category="tecnologia">💻 Tecnología</div>
+                <div class="category-option" data-category="peliculas">🎬 Películas</div>
+            </div>
+            <button class="btn-close" id="close-category-btn">Comenzar Juego</button>
+        </div>
+    </div>
+
+    <!-- Ventana de pista -->
+    <div class="hint-box" id="hint-box">
+        <div class="hint-content">
+            <h2 class="hint-title"><i class="fas fa-lightbulb"></i> Pista</h2>
+            <p class="hint-text" id="hint-text">Esta es una pista para la palabra.</p>
+            <div id="hint-used" class="hint-used"></div>
+            <button class="btn-close" id="close-hint-btn">Cerrar</button>
+        </div>
+    </div>
+
+    <script>
+        // Variables del juego
+        let currentWord = '';
+        let guessedLetters = [];
+        let wrongLetters = [];
+        let errors = 0;
+        let maxErrors = 8;
+        let hints = 3;
+        let currentCategory = 'animales';
+        let gameActive = true;
+        let difficulty = 'easy';
+        let score = 0;
+        let streak = 0;
+        let startTime = 0;
+        let timerInterval = null;
+        let musicEnabled = true;
+        let sfxEnabled = true;
+        let musicVolume = 0.5;
+        let sfxVolume = 0.7;
+        let audioInitialized = false;
+
+        // Palabras por categoría
+        const wordsByCategory = {
+            animales: [
+                { word: 'ELEFANTE', hint: 'El mamífero terrestre más grande' },
+                { word: 'JIRAFA', hint: 'Animal con el cuello más largo' },
+                { word: 'DELFIN', hint: 'Mamífero marino muy inteligente' },
+                { word: 'COCODRILO', hint: 'Reptil de gran tamaño que vive en ríos' },
+                { word: 'MARIPOSA', hint: 'Insecto con alas coloridas' },
+                { word: 'PINGUINO', hint: 'Ave que no vuela y vive en el hemisferio sur' },
+                { word: 'LEOPARDO', hint: 'Gran felino con pelaje manchado' },
+                { word: 'ORNITORRINCO', hint: 'Mamífero que pone huevos' }
+            ],
+            paises: [
+                { word: 'ARGENTINA', hint: 'País del tango y el asado' },
+                { word: 'CANADA', hint: 'País conocido por sus bosques y lagos' },
+                { word: 'JAPON', hint: 'País del sol naciente' },
+                { word: 'AUSTRALIA', hint: 'País continente y hogar de los canguros' },
+                { word: 'BRASIL', hint: 'País más grande de América del Sur' },
+                { word: 'EGIPTO', hint: 'País de las pirámides' },
+                { word: 'ITALIA', hint: 'País con forma de bota' },
+                { word: 'SUIZA', hint: 'País conocido por sus relojes y chocolate' }
+            ],
+            ciencia: [
+                { word: 'ASTRONOMIA', hint: 'Ciencia que estudia los astros' },
+                { word: 'BIOLOGIA', hint: 'Ciencia que estudia los seres vivos' },
+                { word: 'QUIMICA', hint: 'Ciencia que estudia la materia' },
+                { word: 'FISICA', hint: 'Ciencia que estudia las propiedades de la energía' },
+                { word: 'GEOLOGIA', hint: 'Ciencia que estudia la Tierra' },
+                { word: 'ECOLOGIA', hint: 'Ciencia que estudia los ecosistemas' },
+                { word: 'GENETICA', hint: 'Ciencia que estudia la herencia' },
+                { word: 'NEUROLOGIA', hint: 'Ciencia que estudia el sistema nervioso' }
+            ],
+            deportes: [
+                { word: 'FUTBOL', hint: 'Deporte con 11 jugadores por equipo' },
+                { word: 'BALONCESTO', hint: 'Deporte donde se anota en una canasta' },
+                { word: 'TENIS', hint: 'Deporte que se juega con raqueta' },
+                { word: 'NATACION', hint: 'Deporte acuático' },
+                { word: 'CICLISMO', hint: 'Deporte que se practica en bicicleta' },
+                { word: 'ATLETISMO', hint: 'Conjunto de deportes como correr y saltar' },
+                { word: 'VOLEIBOL', hint: 'Deporte donde se golpea una pelota por encima de una red' },
+                { word: 'GIMNASIA', hint: 'Deporte que requiere flexibilidad y fuerza' }
+            ],
+            tecnologia: [
+                { word: 'COMPUTADORA', hint: 'Máquina electrónica para procesar datos' },
+                { word: 'INTERNET', hint: 'Red global de computadoras' },
+                { word: 'PROGRAMACION', hint: 'Proceso de crear software' },
+                { word: 'ROBOTICA', hint: 'Tecnología que diseña y construye robots' },
+                { word: 'INTELIGENCIA', hint: 'Capacidad de las máquinas para aprender' },
+                { word: 'ALGORITMO', hint: 'Conjunto de instrucciones para resolver un problema' },
+                { word: 'AUTOMATIZACION', hint: 'Uso de tecnología para realizar tareas sin intervención humana' },
+                { word: 'REALIDADVIRTUAL', hint: 'Entorno generado por computadora' }
+            ],
+            peliculas: [
+                { word: 'TITANIC', hint: 'Película sobre un barco que se hunde' },
+                { word: 'AVATAR', hint: 'Película de ciencia ficción con humanos en Pandora' },
+                { word: 'TOYSTORY', hint: 'Película sobre juguetes que cobran vida' },
+                { word: 'MATRIX', hint: 'Película sobre un mundo simulado por máquinas' },
+                { word: 'HARRYPOTTER', hint: 'Película sobre un joven mago' },
+                { word: 'STARWARS', hint: 'Franquicia de películas de ciencia ficción' },
+                { word: 'JURASSICPARK', hint: 'Película sobre un parque con dinosaurios' },
+                { word: 'FROZEN', hint: 'Película animada sobre dos hermanas y poderes de hielo' }
+            ]
+        };
+
+        // Elementos del DOM
+        const wordDisplay = document.getElementById('word-display');
+        const wordLengthDisplay = document.getElementById('word-length');
+        const categoryDisplay = document.getElementById('category-display');
+        const categoryHint = document.getElementById('category-hint');
+        const errorsDisplay = document.getElementById('errors-display');
+        const hintsDisplay = document.getElementById('hints-display');
+        const scoreDisplay = document.getElementById('score-display');
+        const keyboard = document.getElementById('keyboard');
+        const canvas = document.getElementById('hangman-canvas');
+        const ctx = canvas.getContext('2d');
+        const timerDisplay = document.getElementById('timer');
+        const streakDisplay = document.getElementById('streak');
+        const volumeSlider = document.getElementById('volume-slider');
+        const audioPermission = document.getElementById('audio-permission');
+        
+        // Elementos de audio
+        const backgroundMusic = document.getElementById('background-music');
+        const correctSound = document.getElementById('correct-sound');
+        const incorrectSound = document.getElementById('incorrect-sound');
+        const winSound = document.getElementById('win-sound');
+        const loseSound = document.getElementById('lose-sound');
+        const hintSound = document.getElementById('hint-sound');
+        
+        // Botones
+        const newGameBtn = document.getElementById('new-game-btn');
+        const hintBtn = document.getElementById('hint-btn');
+        const categoryBtn = document.getElementById('category-btn');
+        const musicBtn = document.getElementById('music-btn');
+        const enableAudioBtn = document.getElementById('enable-audio-btn');
+        
+        // Overlays
+        const messageOverlay = document.getElementById('message-overlay');
+        const messageTitle = document.getElementById('message-title');
+        const messageText = document.getElementById('message-text');
+        const messageWord = document.getElementById('message-word');
+        const gameStats = document.getElementById('game-stats');
+        const closeMessageBtn = document.getElementById('close-message-btn');
+        
+        const categorySelector = document.getElementById('category-selector');
+        const closeCategoryBtn = document.getElementById('close-category-btn');
+        const categoryOptions = document.querySelectorAll('.category-option');
+        
+        const hintBox = document.getElementById('hint-box');
+        const hintText = document.getElementById('hint-text');
+        const hintUsed = document.getElementById('hint-used');
+        const closeHintBtn = document.getElementById('close-hint-btn');
+        
+        const difficultyBtns = document.querySelectorAll('.difficulty-btn');
+        const achievementBadge = document.getElementById('achievement-badge');
+        const achievementText = document.getElementById('achievement-text');
+        
+        // Sliders de volumen
+        const volumeControl = document.getElementById('volume');
+        const sfxVolumeControl = document.getElementById('sfx-volume');
+
+        // Inicializar el juego
+        function initGame() {
+            resetGame();
+            createKeyboard();
+            drawHangman();
+            selectRandomWord();
+            updateDisplay();
+            startTimer();
+            
+            // Configurar dificultad
+            difficultyBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    difficultyBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    difficulty = this.dataset.level;
+                    maxErrors = difficulty === 'easy' ? 8 : difficulty === 'medium' ? 6 : 4;
+                    resetGame();
+                });
+            });
+            
+            // Configurar controles de volumen
+            volumeControl.value = musicVolume * 100;
+            sfxVolumeControl.value = sfxVolume * 100;
+            
+            volumeControl.addEventListener('input', function() {
+                musicVolume = this.value / 100;
+                backgroundMusic.volume = musicVolume;
+            });
+            
+            sfxVolumeControl.addEventListener('input', function() {
+                sfxVolume = this.value / 100;
+            });
+        }
+
+        // Inicializar audio
+        function initAudio() {
+            console.log("Inicializando audio...");
+            
+            // Configurar volumen inicial
+            backgroundMusic.volume = musicVolume;
+            correctSound.volume = sfxVolume;
+            incorrectSound.volume = sfxVolume;
+            winSound.volume = sfxVolume;
+            loseSound.volume = sfxVolume;
+            hintSound.volume = sfxVolume;
+            
+            // Intentar reproducir música de fondo
+            const playMusic = () => {
+                if (musicEnabled && audioInitialized) {
+                    backgroundMusic.play().then(() => {
+                        console.log("Música de fondo iniciada");
+                    }).catch(error => {
+                        console.log("Error al iniciar música:", error);
+                    });
+                }
+            };
+            
+            // Intentar cargar y reproducir un sonido pequeño para activar el audio
+            const testAudio = new Audio();
+            testAudio.volume = 0.01;
+            
+            // Usar un sonido muy corto o silencio
+            testAudio.src = "data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA==";
+            
+            testAudio.play().then(() => {
+                console.log("Audio activado correctamente");
+                audioInitialized = true;
+                playMusic();
+                
+                // Ocultar el mensaje de permiso
+                audioPermission.style.display = 'none';
+                
+            }).catch(error => {
+                console.log("Se requiere interacción del usuario para audio");
+                // Mostrar mensaje para que el usuario interactúe
+                audioPermission.style.display = 'flex';
+            });
+            
+            // Detener el audio de prueba inmediatamente
+            setTimeout(() => {
+                testAudio.pause();
+                testAudio.currentTime = 0;
+            }, 100);
+        }
+
+        // Activar audio cuando el usuario interactúa
+        function enableAudio() {
+            console.log("Usuario activó audio");
+            audioInitialized = true;
+            
+            // Ocultar mensaje de permiso
+            audioPermission.style.display = 'none';
+            
+            // Iniciar música si está habilitada
+            if (musicEnabled) {
+                backgroundMusic.volume = musicVolume;
+                backgroundMusic.play().then(() => {
+                    console.log("Música iniciada después de interacción");
+                }).catch(error => {
+                    console.log("Error al iniciar música:", error);
+                });
+            }
+        }
+
+        // Reiniciar el juego
+        function resetGame() {
+            guessedLetters = [];
+            wrongLetters = [];
+            errors = 0;
+            hints = 3;
+            gameActive = true;
+            updateDisplay();
+            clearCanvas();
+            drawHangman();
+            
+            // Habilitar todas las teclas
+            document.querySelectorAll('.key').forEach(key => {
+                key.disabled = false;
+                key.classList.remove('correct', 'incorrect');
+            });
+            
+            // Actualizar contadores
+            errorsDisplay.textContent = `${errors} / ${maxErrors}`;
+            hintsDisplay.textContent = hints;
+            scoreDisplay.textContent = score;
+            streakDisplay.textContent = streak;
+            
+            // Reiniciar timer
+            if (timerInterval) clearInterval(timerInterval);
+            startTime = Date.now();
+        }
+
+        // Crear teclado
+        function createKeyboard() {
+            keyboard.innerHTML = '';
+            const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+            
+            letters.forEach(letter => {
+                const key = document.createElement('button');
+                key.className = 'key';
+                key.textContent = letter;
+                key.dataset.letter = letter;
+                
+                key.addEventListener('click', () => handleGuess(letter));
+                
+                keyboard.appendChild(key);
+            });
+        }
+
+        // Seleccionar palabra aleatoria
+        function selectRandomWord() {
+            const categoryWords = wordsByCategory[currentCategory];
+            const randomIndex = Math.floor(Math.random() * categoryWords.length);
+            currentWord = categoryWords[randomIndex].word;
+            
+            // Actualizar pista en la interfaz
+            categoryHint.textContent = `Categoría: ${currentCategory.charAt(0).toUpperCase() + currentCategory.slice(1)}`;
+            wordLengthDisplay.textContent = `Longitud: ${currentWord.length} letras`;
+        }
+
+        // Manejar adivinanza de letra
+        function handleGuess(letter) {
+            if (!gameActive) return;
+            
+            // Asegurar que el audio esté inicializado
+            if (!audioInitialized) {
+                enableAudio();
+            }
+            
+            const key = document.querySelector(`.key[data-letter="${letter}"]`);
+            if (!key || key.disabled) return;
+            
+            key.disabled = true;
+            
+            if (currentWord.includes(letter)) {
+                // Letra correcta
+                key.classList.add('correct');
+                guessedLetters.push(letter);
+                playSound(correctSound);
+                
+                // Verificar si ganó
+                if (checkWin()) {
+                    endGame(true);
+                }
+            } else {
+                // Letra incorrecta
+                key.classList.add('incorrect');
+                wrongLetters.push(letter);
+                errors++;
+                drawHangman();
+                playSound(incorrectSound);
+                
+                // Verificar si perdió
+                if (errors >= maxErrors) {
+                    endGame(false);
+                }
+            }
+            
+            updateDisplay();
+        }
+
+        // Verificar si el jugador ganó
+        function checkWin() {
+            const wordLetters = [...new Set(currentWord.replace(/ /g, ''))];
+            return wordLetters.every(letter => guessedLetters.includes(letter));
+        }
+
+        // Actualizar la visualización
+        function updateDisplay() {
+            // Mostrar la palabra con las letras adivinadas
+            let displayText = '';
+            for (let i = 0; i < currentWord.length; i++) {
+                const letter = currentWord[i];
+                if (letter === ' ') {
+                    displayText += '  ';
+                } else if (guessedLetters.includes(letter)) {
+                    displayText += letter + ' ';
+                } else {
+                    displayText += '_ ';
+                }
+            }
+            wordDisplay.textContent = displayText.trim();
+            
+            // Actualizar contadores
+            errorsDisplay.textContent = `${errors} / ${maxErrors}`;
+            hintsDisplay.textContent = hints;
+            scoreDisplay.textContent = score;
+            categoryDisplay.textContent = currentCategory.charAt(0).toUpperCase() + currentCategory.slice(1);
+            streakDisplay.textContent = streak;
+        }
+
+        // Dibujar el ahorcado
+        function drawHangman() {
+            clearCanvas();
+            
+            // Dibujar la horca base
+            ctx.strokeStyle = '#8B4513';
+            ctx.lineWidth = 4;
+            
+            // Base
+            ctx.beginPath();
+            ctx.moveTo(50, 250);
+            ctx.lineTo(150, 250);
+            ctx.stroke();
+            
+            // Poste vertical
+            ctx.beginPath();
+            ctx.moveTo(100, 250);
+            ctx.lineTo(100, 50);
+            ctx.stroke();
+            
+            // Viga superior
+            ctx.beginPath();
+            ctx.moveTo(100, 50);
+            ctx.lineTo(200, 50);
+            ctx.stroke();
+            
+            // Soga
+            ctx.beginPath();
+            ctx.moveTo(200, 50);
+            ctx.lineTo(200, 80);
+            ctx.stroke();
+            
+            // Dibujar partes del cuerpo según errores
+            ctx.strokeStyle = '#2c3e50';
+            ctx.lineWidth = 3;
+            
+            // Cabeza
+            if (errors > 0) {
+                ctx.beginPath();
+                ctx.arc(200, 100, 20, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+            
+            // Cuerpo
+            if (errors > 1) {
+                ctx.beginPath();
+                ctx.moveTo(200, 120);
+                ctx.lineTo(200, 180);
+                ctx.stroke();
+            }
+            
+            // Brazo izquierdo
+            if (errors > 2) {
+                ctx.beginPath();
+                ctx.moveTo(200, 130);
+                ctx.lineTo(170, 160);
+                ctx.stroke();
+            }
+            
+            // Brazo derecho
+            if (errors > 3) {
+                ctx.beginPath();
+                ctx.moveTo(200, 130);
+                ctx.lineTo(230, 160);
+                ctx.stroke();
+            }
+            
+            // Pierna izquierda
+            if (errors > 4) {
+                ctx.beginPath();
+                ctx.moveTo(200, 180);
+                ctx.lineTo(170, 220);
+                ctx.stroke();
+            }
+            
+            // Pierna derecha
+            if (errors > 5) {
+                ctx.beginPath();
+                ctx.moveTo(200, 180);
+                ctx.lineTo(230, 220);
+                ctx.stroke();
+            }
+            
+            // Ojos (tristes si hay muchos errores)
+            if (errors > 0) {
+                ctx.fillStyle = '#2c3e50';
+                // Ojo izquierdo
+                ctx.beginPath();
+                ctx.arc(193, 95, 3, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Ojo derecho
+                ctx.beginPath();
+                ctx.arc(207, 95, 3, 0, Math.PI * 2);
+                ctx.fill();
+                
+                // Boca
+                ctx.beginPath();
+                if (errors >= maxErrors - 1) {
+                    // Boca triste
+                    ctx.arc(200, 108, 8, 0.2 * Math.PI, 0.8 * Math.PI);
+                } else {
+                    // Boca normal
+                    ctx.moveTo(190, 110);
+                    ctx.lineTo(210, 110);
+                }
+                ctx.stroke();
+            }
+            
+            // Cara de miedo si hay muchos errores
+            if (errors >= maxErrors - 1) {
+                // Líneas de "miedo" en la cabeza
+                ctx.beginPath();
+                ctx.moveTo(180, 85);
+                ctx.lineTo(175, 80);
+                ctx.moveTo(220, 85);
+                ctx.lineTo(225, 80);
+                ctx.stroke();
+            }
+        }
+
+        // Limpiar el canvas
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // Finalizar el juego
+        function endGame(win) {
+            gameActive = false;
+            clearInterval(timerInterval);
+            
+            // Calcular tiempo transcurrido
+            const elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+            const minutes = Math.floor(elapsedTime / 60);
+            const seconds = elapsedTime % 60;
+            const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            if (win) {
+                messageTitle.textContent = '¡Felicidades!';
+                messageText.textContent = 'Has adivinado la palabra correctamente.';
+                messageTitle.style.color = '#2ecc71';
+                
+                // Calcular puntuación
+                let pointsEarned = 100;
+                pointsEarned += (maxErrors - errors) * 10; // Menos errores, más puntos
+                pointsEarned += Math.max(0, 300 - elapsedTime); // Menos tiempo, más puntos
+                pointsEarned *= difficulty === 'easy' ? 1 : difficulty === 'medium' ? 1.5 : 2; // Multiplicador por dificultad
+                pointsEarned = Math.floor(pointsEarned);
+                
+                score += pointsEarned;
+                streak++;
+                
+                playSound(winSound);
+                
+                // Mostrar estadísticas
+                gameStats.textContent = `Tiempo: ${timeString} | Errores: ${errors} | Puntos: +${pointsEarned} | Racha: ${streak}`;
+                
+                // Verificar logros
+                checkAchievements();
+            } else {
+                messageTitle.textContent = '¡Game Over!';
+                messageText.textContent = 'El ahorcado se ha completado. Mejor suerte la próxima vez.';
+                messageTitle.style.color = '#e74c3c';
+                streak = 0;
+                
+                playSound(loseSound);
+                
+                // Mostrar estadísticas
+                gameStats.textContent = `Tiempo: ${timeString} | Palabra: ${currentWord}`;
+            }
+            
+            messageWord.textContent = currentWord;
+            messageOverlay.classList.add('active');
+            
+            // Deshabilitar todas las teclas
+            document.querySelectorAll('.key').forEach(key => {
+                key.disabled = true;
+            });
+        }
+
+        // Mostrar pista
+        function showHint() {
+            if (hints <= 0 || !gameActive) return;
+            
+            // Asegurar que el audio esté inicializado
+            if (!audioInitialized) {
+                enableAudio();
+            }
+            
+            // Encontrar una letra no adivinada
+            const unguessedLetters = [...new Set(currentWord.split('').filter(letter => 
+                letter !== ' ' && !guessedLetters.includes(letter)
+            ))];
+            
+            if (unguessedLetters.length === 0) return;
+            
+            // Seleccionar una letra aleatoria para revelar
+            const randomLetter = unguessedLetters[Math.floor(Math.random() * unguessedLetters.length)];
+            
+            // Mostrar la pista
+            const categoryWords = wordsByCategory[currentCategory];
+            const currentWordObj = categoryWords.find(item => item.word === currentWord);
+            
+            hintText.textContent = `Pista: ${currentWordObj.hint}`;
+            hintUsed.textContent = `La letra "${randomLetter}" será revelada. Te quedan ${hints-1} pistas.`;
+            hintBox.classList.add('active');
+            
+            // Reducir contador de pistas
+            hints--;
+            hintsDisplay.textContent = hints;
+            
+            playSound(hintSound);
+            
+            // Revelar la letra automáticamente después de un tiempo si el usuario no lo hace
+            setTimeout(() => {
+                if (gameActive && !guessedLetters.includes(randomLetter)) {
+                    handleGuess(randomLetter);
+                }
+            }, 2000);
+        }
+
+        // Cambiar categoría
+        function changeCategory() {
+            categorySelector.classList.add('active');
+        }
+
+        // Controlar música
+        function toggleMusic() {
+            musicEnabled = !musicEnabled;
+            sfxEnabled = !sfxEnabled;
+            
+            if (musicEnabled && sfxEnabled) {
+                backgroundMusic.play();
+                musicBtn.innerHTML = '<i class="fas fa-volume-up"></i> Sonido: ON';
+                musicBtn.style.backgroundColor = '#e74c3c';
+            } else {
+                backgroundMusic.pause();
+                musicBtn.innerHTML = '<i class="fas fa-volume-mute"></i> Sonido: OFF';
+                musicBtn.style.backgroundColor = '#95a5a6';
+            }
+        }
+
+        // Mostrar/ocultar control de volumen
+        function toggleVolumeSlider() {
+            volumeSlider.classList.toggle('active');
+        }
+
+        // Reproducir sonido
+        function playSound(audioElement) {
+            if (!sfxEnabled || !audioInitialized) return;
+            
+            audioElement.volume = sfxVolume;
+            audioElement.currentTime = 0;
+            audioElement.play().catch(e => {
+                console.log("Error reproduciendo sonido, intentando activar audio...");
+                enableAudio();
+            });
+        }
+
+        // Iniciar temporizador
+        function startTimer() {
+            startTime = Date.now();
+            timerInterval = setInterval(() => {
+                const elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+                const minutes = Math.floor(elapsedTime / 60);
+                const seconds = elapsedTime % 60;
+                timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        // Verificar logros
+        function checkAchievements() {
+            let achievement = '';
+            
+            if (streak === 3) {
+                achievement = '¡Triple Victoria! Ganaste 3 veces seguidas';
+            } else if (streak === 5) {
+                achievement = '¡Pentakill! 5 victorias consecutivas';
+            } else if (streak === 10) {
+                achievement = '¡Leyenda! 10 victorias consecutivas';
+            } else if (score >= 1000) {
+                achievement = '¡Puntuación Maestra! Superaste los 1000 puntos';
+            } else if (errors === 0) {
+                achievement = '¡Perfecto! Completaste sin errores';
+            }
+            
+            if (achievement) {
+                showAchievement(achievement);
+            }
+        }
+
+        // Mostrar logro
+        function showAchievement(text) {
+            achievementText.textContent = text;
+            achievementBadge.classList.add('show');
+            
+            // Reproducir sonido de logro
+            if (audioInitialized) {
+                const achievementSound = new Audio();
+                achievementSound.src = "https://assets.mixkit.co/sfx/preview/mixkit-achievement-bell-600.mp3";
+                achievementSound.volume = sfxVolume;
+                achievementSound.play();
+            }
+            
+            setTimeout(() => {
+                achievementBadge.classList.remove('show');
+            }, 3000);
+        }
+
+        // Event listeners para botones
+        newGameBtn.addEventListener('click', () => {
+            if (!audioInitialized) enableAudio();
+            initGame();
+        });
+        
+        hintBtn.addEventListener('click', () => {
+            if (!audioInitialized) enableAudio();
+            showHint();
+        });
+        
+        categoryBtn.addEventListener('click', changeCategory);
+        musicBtn.addEventListener('click', toggleMusic);
+        musicBtn.addEventListener('dblclick', toggleVolumeSlider);
+        enableAudioBtn.addEventListener('click', enableAudio);
+
+        // Event listeners para overlays
+        closeMessageBtn.addEventListener('click', () => {
+            messageOverlay.classList.remove('active');
+        });
+
+        closeCategoryBtn.addEventListener('click', () => {
+            categorySelector.classList.remove('active');
+            resetGame();
+        });
+
+        closeHintBtn.addEventListener('click', () => {
+            hintBox.classList.remove('active');
+        });
+
+        // Event listeners para opciones de categoría
+        categoryOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                categoryOptions.forEach(opt => opt.classList.remove('active'));
+                this.classList.add('active');
+                currentCategory = this.dataset.category;
+            });
+        });
+
+        // Event listener para teclado físico
+        document.addEventListener('keydown', (e) => {
+            if (!gameActive) return;
+            
+            // Activar audio en la primera interacción
+            if (!audioInitialized) {
+                enableAudio();
+            }
+            
+            const key = e.key.toUpperCase();
+            if (/^[A-Z]$/.test(key)) {
+                handleGuess(key);
+            }
+            
+            // Atajos de teclado
+            if (e.key === 'Enter') {
+                initGame();
+            } else if (e.key === ' ' && hints > 0) {
+                showHint();
+            } else if (e.key === 'Escape') {
+                if (messageOverlay.classList.contains('active')) {
+                    messageOverlay.classList.remove('active');
+                } else if (categorySelector.classList.contains('active')) {
+                    categorySelector.classList.remove('active');
+                } else if (hintBox.classList.contains('active')) {
+                    hintBox.classList.remove('active');
+                } else if (volumeSlider.classList.contains('active')) {
+                    volumeSlider.classList.remove('active');
+                }
+            } else if (e.key === 'm' || e.key === 'M') {
+                toggleMusic();
+            }
+        });
+
+        // Event listener para clics en cualquier parte del juego
+        document.addEventListener('click', function firstInteraction() {
+            if (!audioInitialized) {
+                enableAudio();
+            }
+            document.removeEventListener('click', firstInteraction);
+        });
+
+        // Inicializar el juego al cargar la página
+        window.addEventListener('load', () => {
+            initGame();
+            initAudio();
+            
+            // Mostrar instrucciones iniciales
+            setTimeout(() => {
+                if (!audioInitialized) {
+                    audioPermission.style.display = 'flex';
+                }
+                
+                hintText.textContent = "Presiona las letras para adivinar la palabra. ¡Cuidado! Cada error hace que se complete el dibujo del ahorcado.";
+                hintUsed.textContent = "Tienes 3 pistas disponibles. Úsalas sabiamente. Doble clic en el botón de música para ajustar volumen.";
+                hintBox.classList.add('active');
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
